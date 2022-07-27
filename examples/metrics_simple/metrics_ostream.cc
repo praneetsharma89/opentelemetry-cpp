@@ -4,7 +4,11 @@
 #ifndef ENABLE_METRICS_PREVIEW
 #  include <memory>
 #  include <thread>
+#  include <iostream>
 #  include "opentelemetry/exporters/ostream/metric_exporter.h"
+#  include "opentelemetry/exporters/otlp/otlp_http_exporter_factory.h"
+#  include "opentelemetry/exporters/otlp/otlp_http_exporter_options.h"
+#  include "opentelemetry/exporters/otlp/otlp_http_metric_exporter.h"
 #  include "opentelemetry/metrics/provider.h"
 #  include "opentelemetry/sdk/metrics/aggregation/default_aggregation.h"
 #  include "opentelemetry/sdk/metrics/aggregation/histogram_aggregation.h"
@@ -23,17 +27,18 @@ namespace nostd           = opentelemetry::nostd;
 namespace common          = opentelemetry::common;
 namespace exportermetrics = opentelemetry::exporter::metrics;
 namespace metrics_api     = opentelemetry::metrics;
+namespace otlpexportmetrics = opentelemetry::exporter::otlp;
 
 namespace
 {
-
+opentelemetry::exporter::otlp::OtlpHttpMetricExporterOptions opts;
 void initMetrics(const std::string &name)
 {
-  std::unique_ptr<metric_sdk::MetricExporter> exporter{new exportermetrics::OStreamMetricExporter};
+  std::unique_ptr<metric_sdk::MetricExporter> exporter{new otlpexportmetrics::OtlpHttpMetricExporter};
 
   std::string version{"1.2.0"};
   std::string schema{"https://opentelemetry.io/schemas/1.2.0"};
-
+  std::cout << "Hello World!" << std::endl;
   // Initialize and set the global MeterProvider
   metric_sdk::PeriodicExportingMetricReaderOptions options;
   options.export_interval_millis = std::chrono::milliseconds(1000);
@@ -90,7 +95,7 @@ int main(int argc, char **argv)
 
   std::string name{"ostream_metric_example"};
   initMetrics(name);
-
+  // foo_library::counter_example(name);
   if (example_type == "counter")
   {
     foo_library::counter_example(name);

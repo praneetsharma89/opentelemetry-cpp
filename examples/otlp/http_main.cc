@@ -22,7 +22,7 @@ namespace otlp      = opentelemetry::exporter::otlp;
 
 namespace
 {
-opentelemetry::exporter::otlp::OtlpHttpExporterOptions opts;
+opentelemetry::exporter::otlp::OtlpHttpMetricExporterOptions opts;
 void InitTracer()
 {
   // Create OTLP exporter instance

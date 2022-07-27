@@ -23,6 +23,8 @@ cc_binary(
         "//api",
         "//examples/common/metrics_foo_library:common_metrics_foo_library",
         "//exporters/ostream:ostream_metric_exporter",
+        "//exporters/otlp:otlp_http_metric_exporter",
+        "//exporters/otlp:otlp_http_exporter",
         "//sdk/src/metrics",
     ],
 )
